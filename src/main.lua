@@ -42,20 +42,23 @@ function love.draw()
     lg.draw(player.image, (player.x - camera.x) * tileSize, (player.y - camera.y) * tileSize, 0, scale, scale)
 end
 
-local movement
+local movement, lastKeys = false, {}
 local function move()
-    local moved = false
+    local moved
 
-    if lk.isDown("w") then
+    if lk.isDown("w") and lastKeys[1] == "w" and tileset.isWalkable(tiles[player.x][player.y-1]) then
         player.y = player.y - 1
         moved = true
-    elseif lk.isDown("a") then
+    end
+    if lk.isDown("a") and lastKeys[1] == "a" and tiles[player.x-1] and tileset.isWalkable(tiles[player.x-1][player.y]) then
         player.x = player.x - 1
         moved = true
-    elseif lk.isDown("s") then
+    end
+    if lk.isDown("s") and lastKeys[1] == "s" and tileset.isWalkable(tiles[player.x][player.y+1]) then
         player.y = player.y + 1
         moved = true
-    elseif lk.isDown("d") then
+    end
+    if lk.isDown("d") and lastKeys[1] == "d" and tiles[player.x+1] and tileset.isWalkable(tiles[player.x+1][player.y]) then
         player.x = player.x + 1
         moved = true
     end
@@ -80,11 +83,23 @@ function love.update(dt)
 end
 
 function love.keypressed(key, unicode)
+    table.insert(lastKeys, 1, key) -- we save the last key pressed
+
     if key == "escape" then
         love.event.quit()
     end
 
     move()
+end
+
+function love.keyreleased(key)
+    --find key in lastKeys and remove it
+    for i=#lastKeys,1,-1 do
+        if lastKeys[i] == key then
+            table.remove(lastKeys, i)
+        end
+    end
+    print(inspect(lastKeys))
 end
 
 local function maketile(x, y)
@@ -106,6 +121,7 @@ local function maketile(x, y)
     end
 end
 
+local selectedTile = 0
 function love.mousepressed(x, y, button)
     x = math.floor(x / tileSize) + camera.x
     y = math.floor(y / tileSize) + camera.y

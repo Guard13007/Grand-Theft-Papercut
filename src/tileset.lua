@@ -12,7 +12,16 @@ local tileset = {
     img("sidewalk.png"),
     img("sidewalk2.png"),
     img("sidewalk3.png"),
+    img("building_window.png"),
 }
+
+function tileset.isWalkable(k)
+    if k and k > 0 and k < 11 then
+        return true
+    else
+        return false
+    end
+end
 
 tileset.count = #tileset
 
