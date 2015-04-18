@@ -37,6 +37,8 @@ local tileset = {
     tile("road_closed.png"),
     tile("sidewalk_closed.png"),
     tile("grass_closed.png"),
+    tile("sidewalk_closed2.png"),
+    tile("road_closed2.png"),
 }
 
 function tileset.isWalkable(k)
