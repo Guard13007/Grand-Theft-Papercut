@@ -1,8 +1,8 @@
 # Grand-Theft-Papercut
 
-Grand Theft Advance knock-off, using LÖVE and cards as a weapon. For Ludum Dare 32.
+Grand Theft Advance knock-off, using [LÖVE](https://love2d.org/) and cards as a weapon. For Ludum Dare 32.
 
-Note: If you try to use "run src.bat" to run it, it requires LÖVE to be installed.
+Note: If you try to use "run src.bat" to run it, it requires LÖVE (64 bit version) to be installed.
 I will make a packaged version later (using [LovePackaging](https://github.com/Guard13007/LovePackaging)).
 
 ## Controls
