@@ -11,3 +11,5 @@ WASD to move up, left, down, right.
 
 Right now is just an editor that opens tiles.lua (from the save directory) and allows you to modify it.
 Scroll up or down to select tiles, right click copies a tile, left click pastes.
+
+### [Check me out on Ludum Dare!](http://ludumdare.com/compo/author/guard13007/)
