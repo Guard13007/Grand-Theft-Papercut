@@ -10,17 +10,9 @@ local tiles, tileset -- loaded in love.load
 local scale = 2
 local tileSize = 16 * scale
 
-local player = {
-    x = 9,
-    y = 7,
-    image = false --loaded after fixing image filter
-}
+local player = require "player"
 
-local camera = {
-    -- these are top left corner values
-    x = 1,
-    y = 1
-}
+local camera = require "camera"
 
 function love.load()
     lg.setDefaultFilter("linear", "nearest", 1)
@@ -34,11 +26,17 @@ function love.draw()
     for x=camera.x,camera.x+14 do
         for y=camera.y,camera.y+9 do
             if tiles[x] and tiles[x][y] then
-                lg.draw(tileset[tiles[x][y]], (x - camera.x) * tileSize, (y - camera.y) * tileSize, 0, scale, scale)
+                if tileset[tiles[x][y]].color then
+                    lg.setColor(tileset[tiles[x][y]].color)
+                else
+                    lg.setColor(255, 255, 255)
+                end
+                lg.draw(tileset[tiles[x][y]].image, (x - camera.x) * tileSize, (y - camera.y) * tileSize, 0, scale, scale)
             end
         end
     end
 
+    lg.setColor(255, 255, 255)
     lg.draw(player.image, (player.x - camera.x) * tileSize, (player.y - camera.y) * tileSize, 0, scale, scale)
 end
 
@@ -74,7 +72,7 @@ local function move()
             camera.y = camera.y + 1
         end
 
-        movement = cron.after(1/6, move)
+        movement = cron.after(1/5, move)
     end
 end
 
@@ -99,7 +97,6 @@ function love.keyreleased(key)
             table.remove(lastKeys, i)
         end
     end
-    print(inspect(lastKeys))
 end
 
 local function maketile(x, y)
@@ -165,4 +162,7 @@ function love.quit()
     collectgarbage()
     -- dunno how to check / set minY and maxY (well, I do, but it would be time-consuming and boring)
     love.filesystem.write("tiles.lua", serialize(tiles))
+    player.image = false -- so serialize doesn't freak out
+    love.filesystem.write("player.lua", serialize(player))
+    love.filesystem.write("camera.lua", serialize(camera))
 end
