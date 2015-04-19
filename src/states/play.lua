@@ -6,13 +6,14 @@ local cron = require "lib.cron"
 local lg = love.graphics
 local lk = love.keyboard
 
-local tiles, tileset -- loaded on initialization
+local tiles, tileset, npcset -- loaded on initialization
 
 local scale = 2
 local tileSize = 16 * scale
 
 local player = require "player"
 local camera = require "camera"
+local npcs = require "npcs"
 
 local play = {}
 
@@ -22,6 +23,7 @@ function play:init()
 
     tiles = require "tiles"
     tileset = require "tileset"
+    npcset = require "npcset"
 end
 
 function play:draw()
@@ -36,6 +38,15 @@ function play:draw()
                 lg.draw(tileset[tiles[x][y]].image, (x - camera.x) * tileSize, (y - camera.y) * tileSize, 0, scale, scale)
             end
         end
+    end
+
+    for i=1,#npcs do
+        if npcset[npcs[i].id].color then
+            lg.setColor(npcset[npcs[i].id].color)
+        else
+            lg.setColor(255, 255, 255)
+        end
+        lg.draw(npcset[npcs[i].id].image, (npcs[i].x - camera.x) * tileSize, (npcs[i].y - camera.y) * tileSize, 0, scale, scale)
     end
 
     lg.setColor(255, 255, 255)

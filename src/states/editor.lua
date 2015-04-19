@@ -5,13 +5,14 @@ local cron = require "lib.cron"
 local lg = love.graphics
 local lk = love.keyboard
 
-local tiles, tileset -- loaded on initialization
+local tiles, tileset, npcset -- loaded on initialization
 
 local scale = 2
 local tileSize = 16 * scale
 
 local player = require "player"
 local camera = require "camera"
+local npcs = require "npcs"
 
 local editor = {}
 
@@ -21,6 +22,7 @@ function editor:init()
 
     tiles = require "tiles"
     tileset = require "tileset"
+    npcset = require "npcset"
 end
 
 function editor:draw()
@@ -35,6 +37,15 @@ function editor:draw()
                 lg.draw(tileset[tiles[x][y]].image, (x - camera.x) * tileSize, (y - camera.y) * tileSize, 0, scale, scale)
             end
         end
+    end
+
+    for i=1,#npcs do
+        if npcset[npcs[i].id].color then
+            lg.setColor(npcset[npcs[i].id].color)
+        else
+            lg.setColor(255, 255, 255)
+        end
+        lg.draw(npcset[npcs[i].id].image, (npcs[i].x - camera.x) * tileSize, (npcs[i].y - camera.y) * tileSize, 0, scale, scale)
     end
 
     lg.setColor(255, 255, 255)
@@ -67,7 +78,8 @@ local function move()
             camera.x = camera.x - 1
         elseif math.abs(player.x - camera.x) > 9 then
             camera.x = camera.x + 1
-        elseif math.abs(player.y - camera.y) < 3 then
+        end
+        if math.abs(player.y - camera.y) < 3 then
             camera.y = camera.y - 1
         elseif math.abs(player.y - camera.y) > 6 then
             camera.y = camera.y + 1
@@ -164,6 +176,7 @@ function editor:quit()
     collectgarbage()
     -- dunno how to check / set minY and maxY (well, I do, but it would be time-consuming and boring)
     love.filesystem.write("tiles.lua", serialize(tiles))
+    love.filesystem.write("npcs.lua", serialize(npcs))
     player.image = false -- so serialize doesn't freak out
     love.filesystem.write("player.lua", serialize(player))
     love.filesystem.write("camera.lua", serialize(camera))
