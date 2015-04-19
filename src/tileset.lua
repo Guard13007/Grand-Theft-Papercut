@@ -2,7 +2,7 @@ local img = love.graphics.newImage
 
 local function tile(imgFile, color)
     return {
-        image = img(imgFile),
+        image = img("tile_img/" .. imgFile),
         color = color
     }
 end
