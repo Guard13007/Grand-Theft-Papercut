@@ -1,4 +1,5 @@
 local img = love.graphics.newImage
+love.graphics.setDefaultFilter("linear", "nearest", 1)
 
 local function top(imgFile, color)
     return img("card_img/" .. imgFile)
