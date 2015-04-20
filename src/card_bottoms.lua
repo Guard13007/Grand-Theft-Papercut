@@ -1,4 +1,5 @@
 local img = love.graphics.newImage
+love.graphics.setDefaultFilter("linear", "nearest", 1)
 
 local function bottom(r, g, b)
     return {
