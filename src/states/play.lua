@@ -1,4 +1,7 @@
---local Gamestate = require "lib.gamestate"
+local Gamestate = require "lib.gamestate"
+
+local fightState = require "states.fight"
+
 local inspect = require "lib.inspect" -- DEBUG (not being used)
 local serialize = require "lib.ser"
 local cron = require "lib.cron"
@@ -53,23 +56,41 @@ function play:draw()
     lg.draw(player.image, (player.x - camera.x) * tileSize, (player.y - camera.y) * tileSize, 0, scale, scale)
 end
 
+local function fight(x, y)
+    local npc = npcset.NPCat(npcs, x, y)
+    --launch fight gamestate with the NPC we'll be fighting and ourself
+    Gamestate.switch(fightState, player, npc)
+end
+
 local movement, lastKeys = false, {}
 local function move()
     local moved
 
     if lk.isDown("w") and lastKeys[1] == "w" and tileset.isWalkable(tiles[player.x][player.y-1]) then
+        if npcset.isNPC(npcs, player.x, player.y-1) then
+            fight(player.x, player.y-1)
+        end
         player.y = player.y - 1
         moved = true
     end
     if lk.isDown("a") and lastKeys[1] == "a" and tiles[player.x-1] and tileset.isWalkable(tiles[player.x-1][player.y]) then
+        if npcset.isNPC(npcs, player.x-1, player.y) then
+            fight(player.x-1, player.y)
+        end
         player.x = player.x - 1
         moved = true
     end
     if lk.isDown("s") and lastKeys[1] == "s" and tileset.isWalkable(tiles[player.x][player.y+1]) then
+        if npcset.isNPC(npcs, player.x, player.y+1) then
+            fight(player.x, player.y+1)
+        end
         player.y = player.y + 1
         moved = true
     end
     if lk.isDown("d") and lastKeys[1] == "d" and tiles[player.x+1] and tileset.isWalkable(tiles[player.x+1][player.y]) then
+        if npcset.isNPC(npcs, player.x+1, player.y) then
+            fight(player.x+1, player.y)
+        end
         player.x = player.x + 1
         moved = true
     end
