@@ -150,10 +150,12 @@ function fight:draw()
     if won == "yes" then
         lg.setColor(0, 0, 0, 100)
         lg.rectangle("fill", 0, 0, lg.getWidth(), lg.getHeight())
+        lg.setColor(255, 255, 255, 255) -- TODO find out if omitting the final 255 would work, or if a lack of it could break other code
         lg.printf("YOU WON", 0, lg.getWidth(), lg.getHeight()/2, "center")
     elseif won == "no" then
         lg.setColor(0, 0, 0, 100)
         lg.rectangle("fill", 0, 0, lg.getWidth(), lg.getHeight())
+        lg.setColor(255, 255, 255, 255)
         lg.printf("YOU LOST", 0, lg.getWidth(), lg.getHeight()/2, "center")
     end
 end
