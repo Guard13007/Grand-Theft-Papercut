@@ -54,7 +54,7 @@ end
 
 local movement, lastKeys = false, {}
 local function move()
-    local moved
+    --local moved
 
     if lk.isDown("w") and lastKeys[1] == "w" and tileset.isWalkable(tiles[player.x][player.y-1]) then
         player.y = player.y - 1
@@ -73,7 +73,7 @@ local function move()
         moved = true
     end
 
-    if moved then
+    --if moved then
         if math.abs(player.x - camera.x) < 5 then
             camera.x = camera.x - 1
         elseif math.abs(player.x - camera.x) > 9 then
@@ -86,7 +86,7 @@ local function move()
         end
 
         movement = cron.after(1/5, move)
-    end
+    --end
 end
 
 function editor:update(dt)
@@ -157,7 +157,6 @@ end
 
 local next = next
 
--- is dis even right?
 function editor:quit()
     for x=tiles.minX,tiles.maxX do
         for y=tiles.minY,tiles.maxY do
