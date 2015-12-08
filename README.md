@@ -1,8 +1,8 @@
-# Grand Theft Papercut
+# [Grand Theft Papercut](http://guard13007.itch.io/grand-theft-papercut)
 
 Grand Theft Advance knock-off, using [LÖVE](https://love2d.org/) and cards as a weapon. For the 32nd Ludum Dare. [View this game's entry!](http://ludumdare.com/compo/ludum-dare-32/?action=preview&uid=52323) Also on [Itch.io](http://guard13007.itch.io/grand-theft-papercut).
 
-Note: If you try to use "run src.bat" to run it, it requires LÖVE (64 bit version) to be installed.
+Note: If you try to use "run src.bat" to run it, it requires [LÖVE](https://love2d.org/) (64 bit version) to be installed.
 
 ## Controls
 
